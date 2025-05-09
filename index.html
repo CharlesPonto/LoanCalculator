@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator</title>
+    <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body> 
+    <div class="container">
+        <h1>Loan Calculator</h1>
+        <form action="">
+            <label for="loanAmount">Loan Amount:</label>
+            <input type="number" id="loanAmount"><br>
+            <label for="">Interest Rate (Annual):</label>
+            <input type="number" id="interestRate"><br>
+            <label for="loanTerm">Loan Term:</label>
+            <input type="number" id="loanTerm"><br>
+            <input type="submit" onclick="calculate()" value="Calculate">
+        </form>
+        <h3 id="totalPayment"></h3>
+        <h3 id="monthlyPayment"></h3>
+        <h3 id="totalInterest"></h3>
+    </div>
+
+    
+
+    <script>
+        function calculate(){
+            const loanAmount = document.getElementById('loanAmount').value;
+            const interestRate = document.getElementById('interestRate').value;
+            const loanTerm = document.getElementById('loanTerm').value;
+
+            const monthlyRate = interestRate / (loanTerm * 100);
+            //to be continued...
+
+            document.getElementById('totalPayment').textContent = `Total Payment: ${loanAmount}`;
+            document.getElementById('monthlyPayment').textContent = `Total Payment: ${loanAmount}`;
+            document.getElementById('totalInterest').textContent = `Total Payment: ${loanAmount}`;
+            event.preventDefault();
+        }
+    </script>
+</body>
+</html>
