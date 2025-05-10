@@ -1,48 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Calculator</title>
     <style>
-        *{
-            font-family: Arial, Helvetica, sans-serif;
+        * {
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        h3 {
+            margin-top: 15px;
         }
     </style>
 </head>
-<body> 
-    <div class="container">
-        <h1>Loan Calculator</h1>
-        <form action="">
-            <label for="loanAmount">Loan Amount:</label>
-            <input type="number" id="loanAmount"><br>
-            <label for="">Interest Rate (Annual):</label>
-            <input type="number" id="interestRate"><br>
-            <label for="loanTerm">Loan Term:</label>
-            <input type="number" id="loanTerm"><br>
-            <input type="submit" onclick="calculate()" value="Calculate">
-        </form>
-        <h3 id="totalPayment"></h3>
-        <h3 id="monthlyPayment"></h3>
-        <h3 id="totalInterest"></h3>
-    </div>
 
-    
+<body>
+
+    <h1>Loan Calculator</h1>
+    <form onsubmit="calculate(event)">
+        <label for="loanAmount">Loan Amount:</label>
+        <input type="number" id="loanAmount" required>
+
+        <label for="interestRate">Interest Rate (Annual %):</label>
+        <input type="number" id="interestRate" required>
+
+        <label for="loanTerm">Loan Term (months):</label>
+        <input type="number" id="loanTerm" required>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <h3 id="monthlyPayment"></h3>
+    <h3 id="totalPayment"></h3>
+    <h3 id="totalInterest"></h3>
 
     <script>
-        function calculate(){
-            const loanAmount = document.getElementById('loanAmount').value;
-            const interestRate = document.getElementById('interestRate').value;
-            const loanTerm = document.getElementById('loanTerm').value;
-
-            const monthlyRate = interestRate / (loanTerm * 100);
-            //to be continued...
-
-            document.getElementById('totalPayment').textContent = `Total Payment: ${loanAmount}`;
-            document.getElementById('monthlyPayment').textContent = `Total Payment: ${loanAmount}`;
-            document.getElementById('totalInterest').textContent = `Total Payment: ${loanAmount}`;
+        function calculate(event) {
             event.preventDefault();
+
+            const P = parseFloat(document.getElementById('loanAmount').value);
+            const annualRate = parseFloat(document.getElementById('interestRate').value);
+            const n = parseInt(document.getElementById('loanTerm').value);
+
+            const r = (annualRate / 100) / 12; // Monthly interest rate in decimal
+
+            // Loan payment formula: M = P * [r(1+r)^n] / [(1+r)^n - 1]
+            const M = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+
+            const totalPayment = M * n;
+            const totalInterest = totalPayment - P;
+
+            // Display results with 2 decimal places
+            document.getElementById('monthlyPayment').textContent = `Monthly Payment: ₱${M.toFixed(2)}`;
+            document.getElementById('totalPayment').textContent = `Total Payment: ₱${totalPayment.toFixed(2)}`;
+            document.getElementById('totalInterest').textContent = `Total Interest: ₱${totalInterest.toFixed(2)}`;
         }
     </script>
+
 </body>
+
 </html>
